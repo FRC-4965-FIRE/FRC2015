@@ -6,6 +6,10 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.Gyro;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team4965.robot.commands.JoystickDrive;
 
@@ -18,6 +22,19 @@ public class DriveTrain extends Subsystem {
 	RobotDrive drive;
   Encoder enc; 
   Victor krum;
+  Jaguar dummyPID;
+  PIDController drivePID;
+  PIDController turnPID;
+  Gyro gyroscope;
+  
+  
+  private static final double driveKp = 0.0;
+  private static final double driveKi = 0.0;
+  private static final double driveKd = 0.0;
+  
+  private static final double turnKp = 0.0;
+  private static final double turnKi = 0.0;
+  private static final double turnKd = 0.0;
 	
 	public static boolean ReverseDrive = false;
 	
@@ -37,9 +54,17 @@ public class DriveTrain extends Subsystem {
         drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
       
+        gyrosope = new Gyro(RobotMap.Gyro);
+      
         enc = new Encoder(RobotMap.EncoderOne_A, RobotMap.EncoderOne_B);
+        dummyPID = new Jaguar(10);
       
         krum = new Victor(RobotMap.TestVictor);
+      
+        drivePID = new PIDController(driveKp, driveKi, driveKd, enc, dummyPID);
+        turnPID = new PIDController(turnKp, turnKi, turnKd, gyroscope, dummyPID);
+      
+        turnPID.setContinuous(true);      
     }
 	
     public int getEncoder()
@@ -61,6 +86,40 @@ public class DriveTrain extends Subsystem {
     {
         setDefaultCommand(new JoystickDrive());
     }
+  
+    public PIDController getDrivePID()
+    {
+        return drivePID;
+    }
+  
+    public PIDController getTurnPID()
+    {
+        return turnPID;
+    }
+  
+    public void drivePID()
+    {
+        double driveOutput;
+        double turnOutput;
+        
+        driveOutput = drivePID.get();
+        turnOutput = turnPID.get();
+        SmartDashboard.putNumber("Encoder PID Out", driveOutput);
+        SmartDashboard.putNumber("Gyro PID Out", turnOutput);
+        drive.mecanumDrive_Cartesian(0.0, driveOutput, turnOutput, 0.0);
+    }
+  
+    public void strafePID()
+    {
+        double driveOutput;
+        double turnOutput;
+        
+        driveOutput = drivePID.get();
+        turnOutput = turnPID.get();
+        SmartDashboard.putNumber("Encoder PID Out", driveOutput);
+        SmartDashboard.putNumber("Gyro PID Out", turnOutput);
+        drive.mecanumDrive_Cartesian(driveOutput, 0.0, turnOutput, 0.0);
+    }    
     
     public void drive(double LeftSpeed, double RightSpeed)
     {
@@ -96,6 +155,14 @@ public class DriveTrain extends Subsystem {
             drive.tankDrive(Left, -Right);
         else
             drive.mecanumDrive_Cartesian(Strafe, 0, 0, 0);
+      }
+      public double getAngle()
+      {
+        return gyroscope.getAngle();
+      }
+      public void resetGyro()
+      {
+        gyroscope.reset();       
       }
      }
     }
