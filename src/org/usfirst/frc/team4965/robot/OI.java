@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 //import org.usfirst.frc.team4965.robot.commands.ExampleCommand;
-import org.usfirst.frc.team4965.robot.commands.SpinVictor;
+import org.usfirst.frc.team4965.robot.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 //test difference
 /**

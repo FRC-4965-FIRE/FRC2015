@@ -6,34 +6,34 @@ import org.usfirst.frc.team4965.robot.Robot;
  *
  * @author Developer
  */
-public class TurnToAngle extends CommandBase {
+public class TurnToAngle extends Command {
     
     double setpoint;
     
     public TurnToAngle(double setpoint) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        requires(drivetrain);
+        requires(Robot.drivetrain);
         
         this.setpoint = setpoint;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        drivetrain.getTurnPID().setAbsoluteTolerance(2.0);
-        drivetrain.getTurnPID().setSetpoint(setpoint);
-        drivetrain.getTurnPID().enable();
+        Robot.drivetrain.getTurnPID().setAbsoluteTolerance(2.0);
+        Robot.drivetrain.getTurnPID().setSetpoint(setpoint);
+        Robot.drivetrain.getTurnPID().enable();
         
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        drivetrain.turnPID();
+        Robot.drivetrain.turnPID();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if(drivetrain.getTurnPID().onTarget())
+        if(Robot.drivetrain.getTurnPID().onTarget())
             return true;
         
         
@@ -42,14 +42,14 @@ public class TurnToAngle extends CommandBase {
 
     // Called once after isFinished returns true
     protected void end() {
-        drivetrain.mecanumDrive(0, 0, 0, 0);
-        drivetrain.getTurnPID().disable();
+        Robot.drivetrain.mecanumDrive(0, 0, 0, 0);
+        Robot.drivetrain.getTurnPID().disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        drivetrain.mecanumDrive(0, 0, 0, 0);
-        drivetrain.getTurnPID().disable();
+        Robot.drivetrain.mecanumDrive(0, 0, 0, 0);
+        Robot.drivetrain.getTurnPID().disable();
     }
 }

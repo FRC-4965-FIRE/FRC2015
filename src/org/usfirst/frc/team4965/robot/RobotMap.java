@@ -15,6 +15,8 @@ public class RobotMap {
     
     public static final int DIO_ZERO = 0;
     public static final int DIO_ONE = 1;
+    
+    public static final int ANLG_ZERO = 0;
       
   //encoder ports
     public static final int EncoderOne_A = DIO_ZERO;

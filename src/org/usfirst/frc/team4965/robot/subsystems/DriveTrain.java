@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 
 import org.usfirst.frc.team4965.robot.commands.JoystickDrive;
 
@@ -54,7 +55,7 @@ public class DriveTrain extends Subsystem {
         drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
       
-        gyrosope = new Gyro(RobotMap.Gyro);
+        gyroscope = new Gyro(RobotMap.Gyro);
       
         enc = new Encoder(RobotMap.EncoderOne_A, RobotMap.EncoderOne_B);
         dummyPID = new Jaguar(10);
@@ -121,6 +122,15 @@ public class DriveTrain extends Subsystem {
         drive.mecanumDrive_Cartesian(driveOutput, 0.0, turnOutput, 0.0);
     }    
     
+    public void turnPID()
+    {
+    	double output;
+    	 
+    	output = turnPID.get();
+    	
+    	drive.mecanumDrive_Cartesian(0.0, 0.0, output, 0.0);
+    }
+    
     public void drive(double LeftSpeed, double RightSpeed)
     {
       if(ReverseDrive = true)
@@ -156,15 +166,18 @@ public class DriveTrain extends Subsystem {
         else
             drive.mecanumDrive_Cartesian(Strafe, 0, 0, 0);
       }
-      public double getAngle()
-      {
-        return gyroscope.getAngle();
-      }
-      public void resetGyro()
-      {
-        gyroscope.reset();       
-      }
      }
+    
+    public double getAngle()
+    {
+      return gyroscope.getAngle();
     }
+    
+    public void resetGyro()
+    {
+      gyroscope.reset();       
+    }
+    
+}
     
 
