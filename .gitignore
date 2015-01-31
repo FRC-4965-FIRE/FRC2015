@@ -46,3 +46,7 @@ build.properties
 build.xml
 *.class
 .project
+build/jars/NetworkTables.jar
+build/jars/WPILib.jar
+dist/FRCUserProgram.jar
+sysProps.xml
