@@ -31,11 +31,11 @@ public class DriveTrain extends Subsystem {
   Gyro gyroscope;
   
   
-  private static final double driveKp = 0.5;
+  private static final double driveKp = 0.22;
   private static final double driveKi = 0.0;
   private static final double driveKd = 0.0;
   
-  private static final double turnKp = 0.5;
+  private static final double turnKp = 0.01;
   private static final double turnKi = 0.0;
   private static final double turnKd = 0.0;
 	
@@ -184,6 +184,11 @@ public class DriveTrain extends Subsystem {
     public void resetGyro()
     {
       gyroscope.reset();       
+    }
+  
+    public void resetEncoder()
+    {
+      enc.reset();
     }
     
 }
