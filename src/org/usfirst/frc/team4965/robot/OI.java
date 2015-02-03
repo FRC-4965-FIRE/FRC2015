@@ -19,7 +19,7 @@ public class OI {
   
   public OI()
   {
-    btnOne.whileHeld(new AutoStrafe(800.0, 0));
+    btnOne.whileHeld(new AutoStrafe(800.0, 90));
   }
     
     public double leftStickY()

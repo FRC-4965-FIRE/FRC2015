@@ -1,6 +1,8 @@
 package org.usfirst.frc.team4965.robot.subsystems;
 
+import org.usfirst.frc.team4965.robot.Robot;
 import org.usfirst.frc.team4965.robot.RobotMap;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Jaguar;
@@ -29,11 +31,11 @@ public class DriveTrain extends Subsystem {
   Gyro gyroscope;
   
   
-  private static final double driveKp = 0.0;
+  private static final double driveKp = 0.5;
   private static final double driveKi = 0.0;
   private static final double driveKd = 0.0;
   
-  private static final double turnKp = 0.0;
+  private static final double turnKp = 0.5;
   private static final double turnKi = 0.0;
   private static final double turnKd = 0.0;
 	
@@ -66,6 +68,8 @@ public class DriveTrain extends Subsystem {
         turnPID = new PIDController(turnKp, turnKi, turnKd, gyroscope, dummyPID);
       
         turnPID.setContinuous(true);      
+        turnPID.setAbsoluteTolerance(0.2);
+        drivePID.setAbsoluteTolerance(0.2);
     }
 	
     public int getEncoder()
@@ -119,6 +123,8 @@ public class DriveTrain extends Subsystem {
         turnOutput = turnPID.get();
         SmartDashboard.putNumber("Encoder PID Out", driveOutput);
         SmartDashboard.putNumber("Gyro PID Out", turnOutput);
+        SmartDashboard.putNumber("Gyro Angle Out", gyroscope.getAngle());
+        SmartDashboard.putNumber("Encoder 1", Robot.drivetrain.getEncoder());
         drive.mecanumDrive_Cartesian(driveOutput, 0.0, turnOutput, 0.0);
     }    
     
@@ -127,6 +133,8 @@ public class DriveTrain extends Subsystem {
     	double output;
     	 
     	output = turnPID.get();
+    	
+    	SmartDashboard.putNumber("Gyro Angle Out", gyroscope.getAngle());
     	
     	drive.mecanumDrive_Cartesian(0.0, 0.0, output, 0.0);
     }
