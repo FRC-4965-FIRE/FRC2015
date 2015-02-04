@@ -157,14 +157,20 @@ public class DriveTrain extends Subsystem {
        drive.mecanumDrive_Cartesian(X, 0, 0, 0);
     }
     
-    public void ExtendedTankDrive(double Left, double Right, double Strafe)
+    public void ExtendedTankDrive(double Left, double Right, double LeftStrafe, double RightStrafe)
     {
       if(ReverseDrive == false)
       {
           if(Strafe < 0.1 && Strafe > -0.1)
             drive.tankDrive(Right, -Left);
-        else
-            drive.mecanumDrive_Cartesian(-Strafe, 0, 0, 0);
+          else
+          {
+             if(RightStrafe > 0)
+                drive.mecanumDrive_Cartesian(RightStrafe, 0, 0, 0);
+             else 
+                drive.mecanamDrive_Cartesian(LeftStrafe, 0, 0, 0);
+          }
+       
       }
       
       else

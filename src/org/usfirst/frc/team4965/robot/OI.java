@@ -48,14 +48,24 @@ public class OI {
         return controller.getX();
     }
     
-    public double Twist()
+    public double RightTrigger()
     {
         if (controller.getRawAxis(3) < 0.3 && controller.getRawAxis(3) > -0.3)
         {
             return 0.0;
         }
         
-        return controller.getRawAxis(3);
+        return -controller.getRawAxis(3);
+    }
+  
+    public double LeftTrigger()
+    {
+        if (controller.getRawAxis(2) < 0.3 && controller.getRawAxis(2) > -0.3)
+        {
+            return 0.0;
+        }
+        
+        return controller.getRawAxis(2);
     }
 }
 
