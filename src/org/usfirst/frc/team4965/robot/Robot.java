@@ -9,6 +9,7 @@ import org.usfirst.frc.team4965.robot.subsystems.*;
 import org.usfirst.frc.team4965.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4965.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team4965.robot.commands.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,6 +40,9 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         autonomousCommand = new ExampleCommand();
         teleopCommand = new JoystickDrive();
+        LiveWindow.addSensor("Drive Train", "Drive PID", drivetrain.getDrivePID());
+        LiveWindow.addSensor("Drive Train", "Turn PID", drivetrain.getTurnPID());
+        SmartDashboard.putData("AutoStrafe", new AutoStrafe(200.0, 0));
     }
 	
 	public void disabledPeriodic() {

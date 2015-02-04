@@ -26,12 +26,13 @@ public class DriveTrain extends Subsystem {
   Encoder enc; 
   Victor krum;
   Jaguar dummyPID;
+  Victor dummyPID2;
   PIDController drivePID;
   PIDController turnPID;
   Gyro gyroscope;
   
   
-  private static final double driveKp = 0.22;
+  private static final double driveKp = 0.05;
   private static final double driveKi = 0.0;
   private static final double driveKd = 0.0;
   
@@ -59,10 +60,11 @@ public class DriveTrain extends Subsystem {
       
         enc = new Encoder(RobotMap.EncoderOne_A, RobotMap.EncoderOne_B);
         dummyPID = new Jaguar(10);
+        dummyPID2 = new Victor(9);
       
         krum = new Victor(RobotMap.TestVictor);
       
-        drivePID = new PIDController(driveKp, driveKi, driveKd, enc, dummyPID);
+        drivePID = new PIDController(driveKp, driveKi, driveKd, enc, dummyPID2);
         turnPID = new PIDController(turnKp, turnKi, turnKd, gyroscope, dummyPID);
       
         turnPID.setContinuous(true);      
@@ -75,9 +77,9 @@ public class DriveTrain extends Subsystem {
       return enc.get();
     }
   
-    public void runVictor()
+    public void runVictor(double speed)
     {
-      krum.set(.5);
+      krum.set(speed);
     }
   
     public void stopVictor()
@@ -123,7 +125,8 @@ public class DriveTrain extends Subsystem {
         SmartDashboard.putNumber("Gyro PID Out", turnOutput);
         SmartDashboard.putNumber("Gyro Angle Out", gyroscope.getAngle());
         SmartDashboard.putNumber("Encoder 1", Robot.drivetrain.getEncoder());
-        drive.mecanumDrive_Cartesian(driveOutput, 0.0, turnOutput, 0.0);
+        //drive.mecanumDrive_Cartesian(driveOutput, 0.0, turnOutput, 0.0);
+        this.runVictor(driveOutput);
     }    
     
     public void turnPID()
