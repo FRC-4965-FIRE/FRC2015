@@ -39,8 +39,6 @@ public class DriveTrain extends Subsystem {
   private static final double turnKi = 0.0;
   private static final double turnKd = 0.0;
 	
-	public static boolean ReverseDrive = false;
-	
   public static DriveTrain getInstance()
     {
         if(instance == null)
@@ -141,9 +139,6 @@ public class DriveTrain extends Subsystem {
     
     public void drive(double LeftSpeed, double RightSpeed)
     {
-      if(ReverseDrive = true)
-        drive.tankDrive(-LeftSpeed, -RightSpeed);
-      else
         drive.tankDrive(LeftSpeed, RightSpeed);
     }
     
@@ -159,27 +154,21 @@ public class DriveTrain extends Subsystem {
     
     public void ExtendedTankDrive(double Left, double Right, double LeftStrafe, double RightStrafe)
     {
-      if(ReverseDrive == false)
-      {
-          if(Strafe < 0.1 && Strafe > -0.1)
-            drive.tankDrive(Right, -Left);
+       if(LeftStrafe < 0.1 && RightStrafe < 0.1)
+       {
+          drive.tankDrive(Right, -Left);
+       }
+       else
+       {
+          if(RightStrafe > 0)
+          {
+            drive.mecanumDrive_Cartesian(-RightStrafe, 0, 0, 0);
+          }
           else
           {
-             if(RightStrafe > 0)
-                drive.mecanumDrive_Cartesian(RightStrafe, 0, 0, 0);
-             else 
-                drive.mecanamDrive_Cartesian(LeftStrafe, 0, 0, 0);
+            drive.mecanumDrive_Cartesian(LeftStrafe, 0, 0, 0);
           }
-       
-      }
-      
-      else
-      {
-        if(Strafe < 0.1 && Strafe > -0.1)
-            drive.tankDrive(Left, -Right);
-        else
-            drive.mecanumDrive_Cartesian(Strafe, 0, 0, 0);
-      }
+       }
      }
     
     public double getAngle()

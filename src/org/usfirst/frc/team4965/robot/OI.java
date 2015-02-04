@@ -55,7 +55,7 @@ public class OI {
             return 0.0;
         }
         
-        return -controller.getRawAxis(3);
+        return controller.getRawAxis(3);
     }
   
     public double LeftTrigger()
