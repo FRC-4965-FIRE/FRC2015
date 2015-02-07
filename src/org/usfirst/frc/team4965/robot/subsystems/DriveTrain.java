@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibh.DigitalInput;
+
 
 import org.usfirst.frc.team4965.robot.commands.JoystickDrive;
 
@@ -30,6 +32,7 @@ public class DriveTrain extends Subsystem {
   PIDController drivePID;
   PIDController turnPID;
   Gyro gyroscope;
+  DigitalInput limit1;
   
   
   private static final double driveKp = 0.05;
@@ -70,6 +73,8 @@ public class DriveTrain extends Subsystem {
         turnPID.setContinuous(true);      
         turnPID.setAbsoluteTolerance(0.2);
         drivePID.setAbsoluteTolerance(0.2);
+      
+        limit1 = new DigitalInput(RobotMap.LimitOne);
     }
 	
     public int getEncoder()
@@ -85,6 +90,11 @@ public class DriveTrain extends Subsystem {
     public void stopVictor()
     {
       krum.set(0);
+    }
+  
+    boolean limitSet()
+    {
+        return limit1.get();  
     }
 
     public void initDefaultCommand() 

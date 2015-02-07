@@ -7,20 +7,34 @@ package org.usfirst.frc.team4965.robot;
  */
 public class RobotMap {
  // PWM ports
-	  public static final int PWM_ZERO = 0;
-    public static final int PWM_ONE = 1;
-    public static final int PWM_TWO = 2;
+	  public static final int PWM_ZERO  = 0;
+    public static final int PWM_ONE   = 1;
+    public static final int PWM_TWO   = 2;
     public static final int PWM_THREE = 3;
-    public static final int PWM_FOUR = 4;
+    public static final int PWM_FOUR  = 4;
     
-    public static final int DIO_ZERO = 0;
-    public static final int DIO_ONE = 1;
+    public static final int DIO_ZERO  = 0;
+    public static final int DIO_ONE   = 1;
+    public static final int DIO_TWO   = 2;
+    public static final int DIO_THREE = 3;
+    public static final int DIO_FOUR  = 4;
+    public static final int DIO_FIVE  = 5;
+    public static final int DIO_SIX   = 6;
     
-    public static final int ANLG_ZERO = 0;
+    public static final int ANLG_ZERO  = 0;
+    public static final int ANLG_ONE   = 1;
+    public static final int ANLG_TWO   = 2;
+    public static final int ANLG_THREE = 3;
+    public static final int ANLG_FOUR  = 4;
+    public static final int ANLG_FIVE  = 5;
+    public static final int ANLG_SIX   = 6;
       
   //encoder ports
     public static final int EncoderOne_A = DIO_ZERO;
     public static final int EncoderOne_B = DIO_ONE;
+  
+  //limit switches
+  public static final int LimitOne = DIO_TWO;
 
 //motor ports
     public static final int LeftFront = PWM_ZERO;//J4
