@@ -23,8 +23,8 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DriveTrain drivetrain;
-  public static Lift lift;
- 
+    public static Lift lift;
+    public static Intake intake;
 
     Command autonomousCommand;
     Command teleopCommand;
@@ -37,8 +37,9 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		//first thing MUST be to create the subsystems
 		drivetrain = DriveTrain.getInstance();
-    lift.getInstance();
-      
+        lift = Lift.getInstance();
+        intake = Intake.getInstance();
+        
     // instantiate the command used for the autonomous period
 		oi = new OI();
         autonomousCommand = new ExampleCommand();

@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.*;
-import edu.wpi.first.wpilibh.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 
 import org.usfirst.frc.team4965.robot.commands.JoystickDrive;
@@ -92,7 +92,7 @@ public class DriveTrain extends Subsystem {
       krum.set(0);
     }
   
-    boolean limitSet()
+    public boolean limitSet()
     {
         return limit1.get();  
     }

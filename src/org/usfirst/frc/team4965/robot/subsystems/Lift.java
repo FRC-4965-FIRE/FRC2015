@@ -3,7 +3,8 @@ package org.usfirst.frc.team4965.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.fist.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalInput;
+import org.usfirst.frc.team4965.robot.*;
 /**
  *
  */
@@ -28,8 +29,8 @@ public class Lift extends Subsystem {
 
     private Lift()
     {
-      limitUp = new DigitalInput(RobotMap.limitOne);
-      limitDown = new DigitalInput(RobotMap.limitTwo);
+      limitUp = new DigitalInput(RobotMap.LimitOne);
+      limitDown = new DigitalInput(RobotMap.LimitTwo);
       
       armLeft = new Victor(RobotMap.LeftVictor);
       armRight = new Victor(RobotMap.RightVictor);

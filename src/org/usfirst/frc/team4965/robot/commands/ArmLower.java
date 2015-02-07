@@ -7,11 +7,11 @@ import org.usfirst.frc.team4965.robot.Robot;
 /**
  *
  */
-public class ArmLift extends Command {
+public class ArmLower extends Command {
 
-    public ExampleCommand() {
+    public ArmLower() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.Lift);
+        requires(Robot.lift);
     }
 
     // Called just before this Command runs the first time
@@ -20,22 +20,22 @@ public class ArmLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      lift.Down(0.5);
+      Robot.lift.Down(0.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return lift.isDown();
+        return Robot.lift.isDown();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-      lift.liftStop();
+      Robot.lift.stopLift();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-      lift.liftStop();
+      Robot.lift.stopLift();
     }
 }

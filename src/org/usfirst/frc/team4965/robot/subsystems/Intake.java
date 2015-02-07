@@ -2,6 +2,7 @@
 package org.usfirst.frc.team4965.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team4965.robot.*;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -30,9 +31,9 @@ public class Intake extends Subsystem {
   
      private Intake()
      {
-        leftWheel = new Talon(RobotMap.leftTalon);
-        rightWheel = new Talon(RobotMap.rightTalon);
-        openArm = new Talon(RobotMap.centerTalon);
+        leftWheel = new Talon(RobotMap.LeftTalon);
+        rightWheel = new Talon(RobotMap.RightTalon);
+        openArm = new Talon(RobotMap.CenterTalon);
         limitOpen = new DigitalInput(RobotMap.LimitThree);
      }
   

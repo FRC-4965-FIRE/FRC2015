@@ -9,7 +9,7 @@ import org.usfirst.frc.team4965.robot.Robot;
  */
 public class ArmLift extends Command {
 
-    public ExampleCommand() {
+    public ArmLift() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.lift);
     }
@@ -20,7 +20,7 @@ public class ArmLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      Robot.lift.
+      Robot.lift.Up(0.5);
       
     }
 
