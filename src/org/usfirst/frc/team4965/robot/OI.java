@@ -16,10 +16,12 @@ public class OI {
    // Joystick controllerTwo = new Joystick(1);
    
    Button btnOne = new JoystickButton(controller, 1);
+   Button btnTwo = new JoystickButton(controller, 1);
   
    public OI()
    {
      btnOne.whileHeld(new SpinVictor());
+     btnTwo.whileHeld(new OpenIntake());
    }
     
     public double leftStickY()

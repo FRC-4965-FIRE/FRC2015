@@ -2,8 +2,8 @@
 package org.usfirst.frc.team4965.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-//import edu.wpi.first.wpilibj.Talon;
-
+import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.fist.wpilibj.DigitalInput;
 /**
  *
  */
@@ -12,6 +12,11 @@ public class Lift extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public static Lift instance;
+    DigitalInput limitUp;
+    DigitalInput limitDown;
+    Victor armLeft;
+    Victor armRight;
+   
   
    public static Lift getInstance()
    {
@@ -23,18 +28,39 @@ public class Lift extends Subsystem {
 
     private Lift()
     {
-      //two talons? Encoders?
+      limitUp = new DigitalInput(RobotMap.limitOne);
+      limitDown = new DigitalInput(RobotMap.limitTwo);
       
+      armLeft = new Victor(RobotMap.LeftVictor);
+      armRight = new Victor(RobotMap.RightVictor);
     }
   
-   public void Up()
+   public void Up(double speed)
    {
-     
+       armLeft.set(speed);
+       armRight.set(-speed);
    } 
   
-   public void Down() 
+   public void Down(double speed) 
    {
-    
+      armLeft.set(-speed);
+      armRight.set(speed);
+   }
+  
+   public void stopLift()
+   {
+      armLeft.set(0.0);
+      armRight.set(0.0);  
+   }
+  
+   public boolean isUp()
+   {
+       return limitUp.get();  
+   }
+  
+   public boolean isDown()
+   {
+     return limitDown.get();
    }
   
     public void initDefaultCommand() {
