@@ -15,8 +15,7 @@ public class Lift extends Subsystem {
     public static Lift instance;
     DigitalInput limitUp;
     DigitalInput limitDown;
-    Victor armLeft;
-    Victor armRight;
+    Victor armLift;
    
   
    public static Lift getInstance()
@@ -32,26 +31,22 @@ public class Lift extends Subsystem {
       limitUp = new DigitalInput(RobotMap.LimitOne);
       limitDown = new DigitalInput(RobotMap.LimitTwo);
       
-      armLeft = new Victor(RobotMap.LeftVictor);
-      armRight = new Victor(RobotMap.RightVictor);
+      armLift = new Victor(RobotMap.ArmVictor);
     }
   
    public void Up(double speed)
    {
-       armLeft.set(speed);
-       armRight.set(-speed);
+       armLift.set(speed);
    } 
   
    public void Down(double speed) 
    {
-      armLeft.set(-speed);
-      armRight.set(speed);
+      armLift.set(-speed);
    }
   
    public void stopLift()
    {
-      armLeft.set(0.0);
-      armRight.set(0.0);  
+      armLift.set(0.0); 
    }
   
    public boolean isUp()

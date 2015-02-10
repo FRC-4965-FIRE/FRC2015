@@ -32,7 +32,6 @@ public class DriveTrain extends Subsystem {
   PIDController drivePID;
   PIDController turnPID;
   Gyro gyroscope;
-  DigitalInput limit1;
   
   
   private static final double driveKp = 0.05;
@@ -74,7 +73,6 @@ public class DriveTrain extends Subsystem {
         turnPID.setAbsoluteTolerance(0.2);
         drivePID.setAbsoluteTolerance(0.2);
       
-        limit1 = new DigitalInput(RobotMap.LimitOne);
     }
 	
     public int getEncoder()
@@ -90,11 +88,6 @@ public class DriveTrain extends Subsystem {
     public void stopVictor()
     {
       krum.set(0);
-    }
-  
-    public boolean limitSet()
-    {
-        return limit1.get();  
     }
 
     public void initDefaultCommand() 
