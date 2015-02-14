@@ -55,8 +55,6 @@ public class DriveTrain extends Subsystem {
        
         drive = new RobotDrive(new Jaguar(RobotMap.LeftFront), new Jaguar(RobotMap.LeftBack), 
                                     new Jaguar(RobotMap.RightFront), new Jaguar(RobotMap.RightBack));
-        drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
-        drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
       
         gyroscope = new Gyro(RobotMap.Gyro);
       
@@ -162,7 +160,7 @@ public class DriveTrain extends Subsystem {
     {
        if(LeftStrafe < 0.1 && RightStrafe < 0.1)
        {
-          drive.tankDrive(Right, -Left);
+          drive.tankDrive(Right, Left);
        }
        else
        {

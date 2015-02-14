@@ -47,6 +47,12 @@ public class Robot extends IterativeRobot {
         LiveWindow.addSensor("Drive Train", "Drive PID", drivetrain.getDrivePID());
         LiveWindow.addSensor("Drive Train", "Turn PID", drivetrain.getTurnPID());
         SmartDashboard.putData("AutoStrafe", new AutoStrafe(200.0, 0));
+      
+        //simple vision
+        server = CameraServer.getInstance();
+        server.setQuality(50);
+        //the camera name (ex "cam0") can be found through the roborio web interface
+        server.startAutomaticCapture("cam0");
     }
 	
 	public void disabledPeriodic() {
