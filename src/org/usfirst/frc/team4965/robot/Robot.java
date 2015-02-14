@@ -46,7 +46,7 @@ public class Robot extends IterativeRobot {
         teleopCommand = new JoystickDrive();
         LiveWindow.addSensor("Drive Train", "Drive PID", drivetrain.getDrivePID());
         LiveWindow.addSensor("Drive Train", "Turn PID", drivetrain.getTurnPID());
-        SmartDashboard.putData("AutoStrafe", new AutoStrafe(200.0, 0));
+        //SmartDashboard.putData("AutoStrafe", new AutoStrafe(200.0, 0));
     }
 	
 	public void disabledPeriodic() {

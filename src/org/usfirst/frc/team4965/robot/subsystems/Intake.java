@@ -18,6 +18,7 @@ public class Intake extends Subsystem {
     Talon rightWheel;
     Talon openArm;
     DigitalInput limitOpen;
+    DigitalInput limitClose;
     
    
   
@@ -35,16 +36,22 @@ public class Intake extends Subsystem {
         rightWheel = new Talon(RobotMap.RightTalon);
         openArm = new Talon(RobotMap.CenterTalon);
         limitOpen = new DigitalInput(RobotMap.LimitThree);
+        limitClose = new DigitalInput(RobotMap.LimitFour);
      }
   
    public void Open(double speed)
    {
        openArm.set(speed);
    } 
+   
+   public void Close(double speed)
+   {
+	   openArm.set(-speed);
+   }
     
-  public void stopOpen(){
-
-    openArm.set(0.0);
+  public void stop()
+  {
+       openArm.set(0.0);
   }
   
   public void spintake(double speed)
@@ -62,6 +69,11 @@ public class Intake extends Subsystem {
   {
     return limitOpen.get();
   }    
+  
+  public boolean isClosed()
+  {
+	return limitClose.get();
+  }
   
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.

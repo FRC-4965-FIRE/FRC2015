@@ -53,8 +53,8 @@ public class DriveTrain extends Subsystem {
     private DriveTrain() {
         super("DriveTrain");
        
-        drive = new RobotDrive(new Jaguar(RobotMap.LeftFront), new Jaguar(RobotMap.LeftBack), 
-                                    new Jaguar(RobotMap.RightFront), new Jaguar(RobotMap.RightBack));
+        drive = new RobotDrive(new Victor(RobotMap.LeftFront), new Victor(RobotMap.LeftBack), 
+                                    new Victor(RobotMap.RightFront), new Victor(RobotMap.RightBack));
         drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
       

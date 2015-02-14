@@ -18,12 +18,14 @@ public class OI {
    Button btnOne = new JoystickButton(controller, 1);
    Button btnTwo = new JoystickButton(controller, 2);
    Button btnThree = new JoystickButton(controller, 3);
+   Button btnFour = new JoystickButton(controller, 4);
   
    public OI()
    {
      btnOne.whileHeld(new ArmLift());
      btnTwo.whileHeld(new OpenIntake());
      btnThree.whileHeld(new ArmLower());
+     btnFour.whileHeld(new CloseIntake());
    }
     
     public double leftStickY()

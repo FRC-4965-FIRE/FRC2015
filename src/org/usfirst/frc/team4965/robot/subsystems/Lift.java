@@ -2,8 +2,10 @@
 package org.usfirst.frc.team4965.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.DigitalInput;
+
 import org.usfirst.frc.team4965.robot.*;
 /**
  *
@@ -51,11 +53,13 @@ public class Lift extends Subsystem {
   
    public boolean isUp()
    {
+	   SmartDashboard.putBoolean("up switch", limitUp.get());
        return limitUp.get();  
    }
   
    public boolean isDown()
    {
+	 SmartDashboard.putBoolean("down switch", limitDown.get());
      return limitDown.get();
    }
   
