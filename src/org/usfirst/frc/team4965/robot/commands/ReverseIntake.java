@@ -7,9 +7,9 @@ import org.usfirst.frc.team4965.robot.Robot;
 /**
  *
  */
-public class OpenIntake extends Command {
+public class ReverseIntake extends Command {
 
-    public OpenIntake() {
+    public ReverseIntake() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.intake);
     }
@@ -20,22 +20,22 @@ public class OpenIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      Robot.intake.Open(0.5);
+      Robot.intake.spintake(-1.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-      return false;//Robot.intake.isOpen();
+      return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-      Robot.intake.stop();
+      Robot.intake.stopSpin();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-      Robot.intake.stop();
+      Robot.intake.stopSpin();
     }
 }

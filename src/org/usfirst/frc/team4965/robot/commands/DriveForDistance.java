@@ -2,13 +2,14 @@ package org.usfirst.frc.team4965.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-import org.usfirst.frc.team4965.robot.Robot;
+import org.usfirst.frc.team4965.robot.*;
 
 /**
  *
  */
 public class DriveForDistance extends Command {
-    public setpoint;
+    public double setpoint;
+    
     public DriveForDistance(double setpoint) {
         requires(Robot.drivetrain);
         this.setpoint = setpoint;
@@ -16,14 +17,14 @@ public class DriveForDistance extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-      drivetrain.getdrivePID().setSetpoint(setpoint);
+      Robot.drivetrain.getDrivePID().setSetpoint(setpoint);
       
-      drivetrain.getdrivePID().enable();
+      Robot.drivetrain.getDrivePID().enable();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      drivetrain.drivePID();
+      Robot.drivetrain.drivePID();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,8 +34,8 @@ public class DriveForDistance extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-      drivetrain.mecanumDrive(0,0,0,0);
-      drivetrain.getdrivePID().disable();
+      Robot.drivetrain.mecanumDrive(0,0,0,0);
+      Robot.drivetrain.getDrivePID().disable();
     }
 
     // Called when another command which requires one or more of the same

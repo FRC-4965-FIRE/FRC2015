@@ -26,7 +26,7 @@ public class CloseIntake extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.intake.isClosed();
+        return false;//Robot.intake.isClosed();
     }
 
     // Called once after isFinished returns true

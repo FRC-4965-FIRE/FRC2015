@@ -13,19 +13,31 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class OI {
 	 Joystick controller = new Joystick(0);
-   // Joystick controllerTwo = new Joystick(1);
+     Joystick controllerTwo = new Joystick(1);
    
    Button btnOne = new JoystickButton(controller, 1);
    Button btnTwo = new JoystickButton(controller, 2);
    Button btnThree = new JoystickButton(controller, 3);
    Button btnFour = new JoystickButton(controller, 4);
+   Button btnFive = new JoystickButton(controller, 5);
+   Button btnSix = new JoystickButton(controller, 6);
+   
+   Button joy2BtnOne = new JoystickButton(controllerTwo, 1);
+   Button joy2BtnTwo = new JoystickButton(controllerTwo, 2);
+   Button joy2BtnThree = new JoystickButton(controllerTwo, 3);
+   Button joy2BtnFour = new JoystickButton(controllerTwo, 4);
+   Button joy2BtnFive = new JoystickButton(controllerTwo, 5);
+   Button joy2BtnSix = new JoystickButton(controllerTwo, 6);
+   
   
    public OI()
    {
-     btnOne.whileHeld(new ArmLift());
-     btnTwo.whileHeld(new OpenIntake());
-     btnThree.whileHeld(new ArmLower());
-     btnFour.whileHeld(new CloseIntake());
+	   joy2BtnOne.whileHeld(new ArmLower());
+	   joy2BtnTwo.whileHeld(new OpenIntake());
+	   joy2BtnFour.whileHeld(new ArmLift());
+	   joy2BtnThree.whileHeld(new CloseIntake());
+	   joy2BtnFive.whileHeld(new SpinIntake());
+	   joy2BtnSix.whileHeld(new ReverseIntake());
    }
     
     public double leftStickY()
@@ -72,6 +84,11 @@ public class OI {
         }
         
         return controller.getRawAxis(2);
+    }
+    
+    public boolean isOverdrive()
+    {
+    	return (controller.getRawButton(5) && controller.getRawButton(6));
     }
 }
 

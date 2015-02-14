@@ -55,9 +55,10 @@ public class DriveTrain extends Subsystem {
        
         drive = new RobotDrive(new Victor(RobotMap.LeftFront), new Victor(RobotMap.LeftBack), 
                                     new Victor(RobotMap.RightFront), new Victor(RobotMap.RightBack));
+      
         drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
-      
+        
         gyroscope = new Gyro(RobotMap.Gyro);
       
         enc = new Encoder(RobotMap.EncoderOne_A, RobotMap.EncoderOne_B);
@@ -158,21 +159,25 @@ public class DriveTrain extends Subsystem {
        drive.mecanumDrive_Cartesian(X, 0, 0, 0);
     }
     
-    public void ExtendedTankDrive(double Left, double Right, double LeftStrafe, double RightStrafe)
+    public void ExtendedTankDrive(double Left, double Right, double LeftStrafe, double RightStrafe, boolean overdrive)
     {
-       if(LeftStrafe < 0.1 && RightStrafe < 0.1)
+       if((LeftStrafe < 0.1 && RightStrafe < 0.1) && !overdrive)
        {
-          drive.tankDrive(Right, -Left);
+          drive.tankDrive(-Left*0.75, Right*0.75);
+       }
+       else if (LeftStrafe < 0.1 && RightStrafe < 0.1)
+       {
+    	   drive.tankDrive(-Left, Right);
        }
        else
        {
           if(RightStrafe > 0)
           {
-            drive.mecanumDrive_Cartesian(-RightStrafe, 0, 0, 0);
+            drive.mecanumDrive_Cartesian(RightStrafe, 0, 0, 0);
           }
           else
           {
-            drive.mecanumDrive_Cartesian(LeftStrafe, 0, 0, 0);
+            drive.mecanumDrive_Cartesian(-LeftStrafe, 0, 0, 0);
           }
        }
      }
