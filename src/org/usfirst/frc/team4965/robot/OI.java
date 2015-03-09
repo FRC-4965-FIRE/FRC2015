@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.Joystick;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	 Joystick controller = new Joystick(0);
-     Joystick controllerTwo = new Joystick(1);
+	 public Joystick controller = new Joystick(0);
+     public Joystick controllerTwo = new Joystick(1);
    
    Button btnOne = new JoystickButton(controller, 1);
    Button btnTwo = new JoystickButton(controller, 2);
@@ -32,6 +32,7 @@ public class OI {
   
    public OI()
    {
+	   btnOne.whenPressed(new SwitchDrive());
 	   joy2BtnOne.whileHeld(new ArmLower());
 	   joy2BtnTwo.whileHeld(new OpenIntake());
 	   joy2BtnFour.whileHeld(new ArmLift());
@@ -48,6 +49,7 @@ public class OI {
         }
         return controller.getY();
     }
+    
     public double rightStickY()
     {
         if (controller.getRawAxis(5) < 0.2 && controller.getRawAxis(5) > -0.2)
@@ -64,6 +66,15 @@ public class OI {
             return 0.0;
         }
         return controller.getX();
+    }
+    
+    public double rightStickX()
+    {
+        if (controller.getRawAxis(4) < 0.2 && controller.getRawAxis(4) > -0.2)
+        {
+            return 0.0;
+        }
+        return controller.getRawAxis(4);    	
     }
     
     public double RightTrigger()

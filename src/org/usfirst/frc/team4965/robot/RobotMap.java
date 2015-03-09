@@ -45,8 +45,8 @@ public class RobotMap {
   //limit switches
   public static final int LimitOne = DIO_TWO; //Up
   public static final int LimitTwo = DIO_THREE; //Down
-  public static final int LimitThree = DIO_FOUR; //Open
-  public static final int LimitFour = DIO_FIVE; //Close
+  public static final int LimitThree = DIO_FOUR; //Close
+  public static final int LimitFour = DIO_FIVE; //Open
 
 //motor ports
     public static final int LeftFront = PWM_ZERO;//J4

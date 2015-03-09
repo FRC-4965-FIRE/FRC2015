@@ -31,7 +31,8 @@ public class DriveTrain extends Subsystem {
   Victor dummyPID2;
   PIDController drivePID;
   PIDController turnPID;
-  Gyro gyroscope;
+  public Gyro gyroscope;
+  public boolean switchDrive = false;
   
   
   private static final double driveKp = 0.05;
@@ -161,6 +162,7 @@ public class DriveTrain extends Subsystem {
     
     public void ExtendedTankDrive(double Left, double Right, double LeftStrafe, double RightStrafe, boolean overdrive)
     {
+       SmartDashboard.putNumber("Drive Encoder", enc.get());
        if((LeftStrafe < 0.1 && RightStrafe < 0.1) && !overdrive)
        {
           drive.tankDrive(-Left*0.75, Right*0.75);
@@ -181,6 +183,18 @@ public class DriveTrain extends Subsystem {
           }
        }
      }
+    
+    public void arcadeDrive(double leftY, double rightX, double leftX, boolean overdrive)
+    {
+       if(!overdrive)    
+       {
+    	 drive.mecanumDrive_Cartesian(leftX*.75, leftY*.75, rightX*.75, 0);
+       }
+       else
+       {
+    	 drive.mecanumDrive_Cartesian(leftX, leftY, rightX, 0);
+       }
+    }
     
     public double getAngle()
     {

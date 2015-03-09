@@ -7,39 +7,33 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CloseIntake extends Command {
-
-    public CloseIntake() {
+public class SwitchDrive extends Command {
+    
+    public SwitchDrive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.drivetrain.switchDrive = !Robot.drivetrain.switchDrive;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-       Robot.intake.Close(0.60);
-       Robot.intake.spintake(-1.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false; //Robot.intake.isClosed();
+        return true;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.intake.stop();
-    	Robot.intake.stopSpin();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.intake.stop();
-    	Robot.intake.stopSpin();
     }
 }

@@ -19,7 +19,6 @@ public class Intake extends Subsystem {
     Talon openArm;
     DigitalInput limitOpen;
     DigitalInput limitClose;
-    
    
   
     public static Intake getInstance() 
@@ -41,12 +40,12 @@ public class Intake extends Subsystem {
   
    public void Open(double speed)
    {
-       openArm.set(speed);
+       openArm.set(-speed);
    } 
    
    public void Close(double speed)
    {
-	   openArm.set(-speed);
+	   openArm.set(speed);
    }
     
   public void stop()

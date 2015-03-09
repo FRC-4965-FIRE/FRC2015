@@ -1,14 +1,19 @@
 
 package org.usfirst.frc.team4965.robot;
 
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler; 
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
 import org.usfirst.frc.team4965.robot.subsystems.*;
 import org.usfirst.frc.team4965.robot.commands.ExampleCommand;
 import org.usfirst.frc.team4965.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team4965.robot.commands.*;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -25,9 +30,13 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
     public static Lift lift;
     public static Intake intake;
+    public static CameraServer server;
 
     Command autonomousCommand;
     Command teleopCommand;
+    
+    int session;
+    Image frame;
     
 
     /**
@@ -42,11 +51,18 @@ public class Robot extends IterativeRobot {
         
     // instantiate the command used for the autonomous period
 		oi = new OI();
-        autonomousCommand = new ExampleCommand();
+        autonomousCommand = new DriveForTime(1.75);
         teleopCommand = new JoystickDrive();
         LiveWindow.addSensor("Drive Train", "Drive PID", drivetrain.getDrivePID());
         LiveWindow.addSensor("Drive Train", "Turn PID", drivetrain.getTurnPID());
         //SmartDashboard.putData("AutoStrafe", new AutoStrafe(200.0, 0));
+        
+        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+
+        // the camera name (ex "cam0") can be found through the roborio web interface
+        session = NIVision.IMAQdxOpenCamera("cam0",
+        NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+        NIVision.IMAQdxConfigureGrab(session);
     }
 	
 	public void disabledPeriodic() {
@@ -69,6 +85,7 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.cancel();
         
         Scheduler.getInstance().add(teleopCommand);
+        NIVision.IMAQdxStartAcquisition(session);
     }
 
     /**
@@ -83,6 +100,12 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+        
+        NIVision.IMAQdxGrab(session, frame, 1);
+        CameraServer.getInstance().setImage(frame);
+        SmartDashboard.putNumber("Gyro Angle Out", drivetrain.getAngle());
+        
+        
         Scheduler.getInstance().run();
     }
     

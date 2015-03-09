@@ -20,7 +20,7 @@ public class ArmLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-      Robot.lift.Up(0.5);
+      Robot.lift.Up(0.75);
       
     }
 
