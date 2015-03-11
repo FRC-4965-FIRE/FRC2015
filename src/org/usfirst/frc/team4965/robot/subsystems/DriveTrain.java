@@ -25,8 +25,8 @@ public class DriveTrain extends Subsystem {
     
 	public static DriveTrain instance;
 	RobotDrive drive;
-  Encoder enc; 
-  Victor krum;
+  Encoder encoderOne, encoderTwo, encoderThree, encoderFour; 
+  Victor frontLeft, frontRight, rearLeft, rearRight;
   Jaguar dummyPID;
   Victor dummyPID2;
   PIDController drivePID;
@@ -53,22 +53,38 @@ public class DriveTrain extends Subsystem {
     
     private DriveTrain() {
         super("DriveTrain");
-       
-        drive = new RobotDrive(new Victor(RobotMap.LeftFront), new Victor(RobotMap.LeftBack), 
-                                    new Victor(RobotMap.RightFront), new Victor(RobotMap.RightBack));
+        
+        frontLeft = new Victor(RobotMap.LeftFront);
+        frontRight = new Victor(RobotMap.RightFront);
+        rearLeft = new Victor(RobotMap.LeftBack);
+        rearRight = new Victor(RobotMap.RightBack);
+          
+        drive = new RobotDrive(frontLeft, rearLeft, frontRight, rearRight);
       
         drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
         
         gyroscope = new Gyro(RobotMap.Gyro);
       
-        enc = new Encoder(RobotMap.EncoderOne_A, RobotMap.EncoderOne_B);
+        encoderOne   = new Encoder(RobotMap.EncoderOne_A, RobotMap.EncoderOne_B);
+        encoderTwo   = new Encoder(RobotMap.EncoderTwo_A, RobotMap.EncoderTwo_B);
+        encoderThree = new Encoder(RobotMap.EncoderThree_A, RobotMap.EncoderThree_B);
+        encoderFour  = new Encoder(RobotMap.EncoderFour_A, RobotMap.EncoderFour_B);
+      
         dummyPID = new Jaguar(10);
         dummyPID2 = new Victor(9);
       
-        krum = new Victor(RobotMap.TestVictor);
+        drivePID_FL = new PIDController(driveKp, driveKi, driveKd, encoderOne, frontLeft);
+        drivePID_FR = new PIDController(driveKp, driveKi, driveKd, encoderTwo, frontRight);
+        drivePID_RL = new PIDController(driveKp, driveKi, driveKd, encoderThree, rearLeft);
+        drivePID_RR = new PIDController(driveKp, driveKi, driveKd, encoderFour, rearRight);
       
-        drivePID = new PIDController(driveKp, driveKi, driveKd, enc, dummyPID2);
+        //100% is FAST, limit to 75
+        drivePID_FL.setOutputRange(0.0, 0.75);
+        drivePID_FR.setOutputRange(0.0, 0.75);
+        drivePID_RL.setOutputRange(0.0, 0.75);
+        drivePID_RR.setOutputRange(0.0, 0.75);
+        
         turnPID = new PIDController(turnKp, turnKi, turnKd, gyroscope, dummyPID);
       
         turnPID.setContinuous(true);      
@@ -77,29 +93,59 @@ public class DriveTrain extends Subsystem {
       
     }
 	
-    public int getEncoder()
+    public int getEncoder(int number)
     {
-      return enc.get();
+      switch (number)
+      {
+        case 1:
+            return encoderOne.get();
+        case 2:
+           return encoderTwo.get();
+        case 3:
+           return encoderThree.get();
+        case 4:
+           return encoderFour.get();
+        default:
+           return encoderOne.get();
+      }
     }
   
-    public void runVictor(double speed)
-    {
-      krum.set(speed);
-    }
-  
-    public void stopVictor()
-    {
-      krum.set(0);
-    }
-
     public void initDefaultCommand() 
     {
         setDefaultCommand(new JoystickDrive());
     }
   
-    public PIDController getDrivePID()
+    public PIDController getDrivePID(int number)
     {
-        return drivePID;
+        switch (number)
+      {
+        case 1:
+            return drivePID_FL;
+        case 2:
+           return drivePID_FR;
+        case 3:
+           return drivePID_RL;
+        case 4:
+           return drivePID_RR;
+        default:
+           return drivePID_FL;
+      }
+    }
+  
+    public void driveSetpoint (double setpoint)
+    {
+      drivePID_FL.setSetpoint(setpoint);
+      drivePID_FR.setSetpoint(setpoint);
+      drivePID_RL.setSetpoint(setpoint);
+      drivePID_RR.setSetpoint(setpoint);
+    }
+  
+    public void driveEnable()
+    {
+      drivePID_FL.enable();
+      drivePID_FR.enable();
+      drivePID_RL.enable();
+      drivePID_RR.enable();
     }
   
     public PIDController getTurnPID()

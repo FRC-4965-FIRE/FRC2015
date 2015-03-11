@@ -27,8 +27,9 @@ public class RobotMap {
     public static final int DIO_FOUR  = 4;
     public static final int DIO_FIVE  = 5;
     public static final int DIO_SIX   = 6;
-  
-     
+    public static final int DIO_SEVEN = 6;
+    public static final int DIO_EIGHT = 6;
+    public static final int DIO_NINE  = 6;
     
     public static final int ANLG_ZERO  = 0;
     public static final int ANLG_ONE   = 1;
@@ -38,17 +39,21 @@ public class RobotMap {
     public static final int ANLG_FIVE  = 5;
     public static final int ANLG_SIX   = 6;
       
-  //encoder ports
-    public static final int EncoderOne_A = DIO_ZERO;
-    public static final int EncoderOne_B = DIO_ONE;
+    //encoder ports
+    public static final int EncoderOne_A   = DIO_ZERO;
+    public static final int EncoderOne_B   = DIO_ONE;
+    public static final int EncoderTwo_A   = DIO_TWO;
+    public static final int EncoderTwo_B   = DIO_THREE;
+    public static final int EncoderThree_A = DIO_FOUR;
+    public static final int EncoderThree_B = DIO_FIVE;
+    public static final int EncoderFour_A  = DIO_SIX;
+    public static final int EncoderFour_B  = DIO_SEVEN;
   
-  //limit switches
-  public static final int LimitOne = DIO_TWO; //Up
-  public static final int LimitTwo = DIO_THREE; //Down
-  public static final int LimitThree = DIO_FOUR; //Close
-  public static final int LimitFour = DIO_FIVE; //Open
+    //limit switches
+    public static final int LimitOne = DIO_EIGHT; //Up
+    public static final int LimitTwo = DIO_NINE;  //Down
 
-//motor ports
+    //motor ports
     public static final int LeftFront = PWM_ZERO;//J4
     public static final int RightFront = PWM_ONE;//J3
     public static final int LeftBack = PWM_TWO;//J2
