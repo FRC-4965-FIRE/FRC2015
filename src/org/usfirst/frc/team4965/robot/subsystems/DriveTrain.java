@@ -2,7 +2,6 @@ package org.usfirst.frc.team4965.robot.subsystems;
 
 import org.usfirst.frc.team4965.robot.Robot;
 import org.usfirst.frc.team4965.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Jaguar;
@@ -23,20 +22,20 @@ import org.usfirst.frc.team4965.robot.commands.JoystickDrive;
  */
 public class DriveTrain extends Subsystem {
     
-	public static DriveTrain instance;
-	RobotDrive drive;
+  public static DriveTrain instance;
+  RobotDrive drive;
   Encoder encoderOne, encoderTwo, encoderThree, encoderFour; 
   Victor frontLeft, frontRight, rearLeft, rearRight;
   Jaguar dummyPID;
   Victor dummyPID2;
-  PIDController drivePID;
+  PIDController drivePID_FL, drivePID_FR, drivePID_RL, drivePID_RR;
   PIDController turnPID;
   public Gyro gyroscope;
   public boolean switchDrive = false;
   
   
-  private static final double driveKp = 0.05;
-  private static final double driveKi = 0.0;
+  private static final double driveKp = 0.025;
+  private static final double driveKi = 0.01;
   private static final double driveKd = 0.0;
   
   private static final double turnKp = 0.01;
@@ -74,22 +73,25 @@ public class DriveTrain extends Subsystem {
         dummyPID = new Jaguar(10);
         dummyPID2 = new Victor(9);
       
-        drivePID_FL = new PIDController(driveKp, driveKi, driveKd, encoderOne, frontLeft);
-        drivePID_FR = new PIDController(driveKp, driveKi, driveKd, encoderTwo, frontRight);
-        drivePID_RL = new PIDController(driveKp, driveKi, driveKd, encoderThree, rearLeft);
-        drivePID_RR = new PIDController(driveKp, driveKi, driveKd, encoderFour, rearRight);
+        drivePID_FR = new PIDController(driveKp, driveKi, driveKd, encoderOne, frontRight);
+        drivePID_FL = new PIDController(driveKp, driveKi, driveKd, encoderTwo, frontLeft);
+        drivePID_RR = new PIDController(driveKp, driveKi, driveKd, encoderThree, rearRight);
+        drivePID_RL = new PIDController(driveKp, driveKi, driveKd, encoderFour, rearLeft);
       
         //100% is FAST, limit to 75
-        drivePID_FL.setOutputRange(0.0, 0.75);
-        drivePID_FR.setOutputRange(0.0, 0.75);
-        drivePID_RL.setOutputRange(0.0, 0.75);
-        drivePID_RR.setOutputRange(0.0, 0.75);
+        drivePID_FL.setOutputRange(-0.75, 0.75);
+        drivePID_FR.setOutputRange(-0.75, 0.75);
+        drivePID_RL.setOutputRange(-0.75, 0.75);
+        drivePID_RR.setOutputRange(-0.75, 0.75);
         
         turnPID = new PIDController(turnKp, turnKi, turnKd, gyroscope, dummyPID);
       
         turnPID.setContinuous(true);      
         turnPID.setAbsoluteTolerance(0.2);
-        drivePID.setAbsoluteTolerance(0.2);
+        drivePID_FL.setAbsoluteTolerance(0.2);
+        drivePID_FR.setAbsoluteTolerance(0.2);
+        drivePID_RL.setAbsoluteTolerance(0.2);
+        drivePID_RR.setAbsoluteTolerance(0.2);
       
     }
 	
@@ -120,15 +122,15 @@ public class DriveTrain extends Subsystem {
         switch (number)
       {
         case 1:
-            return drivePID_FL;
+            return drivePID_FR;
         case 2:
-           return drivePID_FR;
-        case 3:
-           return drivePID_RL;
-        case 4:
-           return drivePID_RR;
-        default:
            return drivePID_FL;
+        case 3:
+           return drivePID_RR;
+        case 4:
+           return drivePID_RL;
+        default:
+           return drivePID_FR;
       }
     }
   
@@ -158,7 +160,7 @@ public class DriveTrain extends Subsystem {
         double driveOutput;
         double turnOutput;
         
-        driveOutput = drivePID.get();
+        driveOutput = drivePID_FL.get();
         turnOutput = turnPID.get();
         SmartDashboard.putNumber("Encoder PID Out", driveOutput);
         SmartDashboard.putNumber("Gyro PID Out", turnOutput);
@@ -170,14 +172,14 @@ public class DriveTrain extends Subsystem {
         double driveOutput;
         double turnOutput;
         
-        driveOutput = drivePID.get();
+        driveOutput = drivePID_FL.get();
         turnOutput = turnPID.get();
         SmartDashboard.putNumber("Encoder PID Out", driveOutput);
         SmartDashboard.putNumber("Gyro PID Out", turnOutput);
         SmartDashboard.putNumber("Gyro Angle Out", gyroscope.getAngle());
-        SmartDashboard.putNumber("Encoder 1", Robot.drivetrain.getEncoder());
+        SmartDashboard.putNumber("Encoder 1", Robot.drivetrain.getEncoder(1));
         //drive.mecanumDrive_Cartesian(driveOutput, 0.0, turnOutput, 0.0);
-        this.runVictor(driveOutput);
+        //this.runVictor(driveOutput);
     }    
     
     public void turnPID()
@@ -208,7 +210,7 @@ public class DriveTrain extends Subsystem {
     
     public void ExtendedTankDrive(double Left, double Right, double LeftStrafe, double RightStrafe, boolean overdrive)
     {
-       SmartDashboard.putNumber("Drive Encoder", enc.get());
+       SmartDashboard.putNumber("Drive Encoder", encoderOne.get());
        if((LeftStrafe < 0.1 && RightStrafe < 0.1) && !overdrive)
        {
           drive.tankDrive(-Left*0.75, Right*0.75);
@@ -242,6 +244,19 @@ public class DriveTrain extends Subsystem {
        }
     }
     
+    public void joystickDrive(double JoyX, double JoyY, double Twist, double Throttle)
+    {
+    	if(Throttle < 0)
+    	{
+    		drive.mecanumDrive_Cartesian(JoyX, JoyY, Twist, 0);
+    	}
+    	else 
+    	{
+    		drive.mecanumDrive_Cartesian(JoyX*.75, JoyY*.75, Twist*.75, 0);
+    	}
+    	
+    }
+    
     public double getAngle()
     {
       return gyroscope.getAngle();
@@ -254,7 +269,10 @@ public class DriveTrain extends Subsystem {
   
     public void resetEncoder()
     {
-      enc.reset();
+      encoderOne.reset();
+      encoderTwo.reset();
+      encoderThree.reset();
+      encoderFour.reset();
     }
     
 }

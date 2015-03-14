@@ -147,7 +147,7 @@ public class EyeOfSauron extends Subsystem {
 			return  targetWidth/(normalizedWidth*12*Math.tan(VIEW_ANGLE*Math.PI/(180*2)));
 		}
   public void autonomous() {
-			while (isAutonomous() && isEnabled())
+			//while (isAutonomous() && isEnabled())
 			{
 				//read file in from disk. For this example to run you need to copy image20.jpg from the SampleImages folder to the
 				//directory shown below using FTP or SFTP: http://wpilib.screenstepslive.com/s/4485/m/24166/l/282299-roborio-ftp
@@ -234,7 +234,8 @@ public class EyeOfSauron extends Subsystem {
 	         */
 	        NIVision.Rect rect = new NIVision.Rect(10, 10, 100, 100);
 
-	        while (isOperatorControl() && isEnabled()) {
+	        //while (isOperatorControl() && isEnabled()) 
+	        {
 
 	            NIVision.IMAQdxGrab(session, frame, 1);
 	            NIVision.imaqDrawShapeOnImage(frame, frame, rect,
@@ -245,6 +246,6 @@ public class EyeOfSauron extends Subsystem {
 	            /** robot code here! **/
 	            Timer.delay(0.005);		// wait for a motor update time
 	        }
-	        NIVision.IMAQdxStopAcquisition(session);
+	       //NIVision.IMAQdxStopAcquisition(session);
 		}
 }

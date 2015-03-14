@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4965.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team4965.robot.*;
 
@@ -24,11 +25,13 @@ public class DriveForDistance extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	SmartDashboard.putNumber("Drive Encoder", Robot.drivetrain.getEncoder(1));
+    	SmartDashboard.putNumber("Encoder PID Out", Robot.drivetrain.getDrivePID(1).get());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.drivetrain.getDrivePID(1).onTarget();
     }
 
     // Called once after isFinished returns true

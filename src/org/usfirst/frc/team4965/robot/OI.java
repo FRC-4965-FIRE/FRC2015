@@ -33,6 +33,7 @@ public class OI {
    public OI()
    {
 	   btnOne.whenPressed(new SwitchDrive());
+	   btnTwo.whenPressed(new DriveForDistance(800));
 	   joy2BtnOne.whileHeld(new ArmLower());
 	   joy2BtnTwo.whileHeld(new OpenIntake());
 	   joy2BtnFour.whileHeld(new ArmLift());

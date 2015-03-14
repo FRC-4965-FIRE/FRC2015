@@ -34,8 +34,8 @@ public class Intake extends Subsystem {
         leftWheel = new Talon(RobotMap.LeftTalon);
         rightWheel = new Talon(RobotMap.RightTalon);
         openArm = new Talon(RobotMap.CenterTalon);
-        limitOpen = new DigitalInput(RobotMap.LimitThree);
-        limitClose = new DigitalInput(RobotMap.LimitFour);
+        //limitOpen = new DigitalInput(RobotMap.LimitThree);
+        //limitClose = new DigitalInput(RobotMap.LimitFour);
      }
   
    public void Open(double speed)

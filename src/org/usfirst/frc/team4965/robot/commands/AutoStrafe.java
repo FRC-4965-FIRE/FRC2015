@@ -24,10 +24,10 @@ public class AutoStrafe extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
       Robot.drivetrain.resetEncoder();
-      Robot.drivetrain.getDrivePID().setSetpoint(distance);
+      Robot.drivetrain.getDrivePID(1).setSetpoint(distance);
       Robot.drivetrain.getTurnPID().setSetpoint(angle);
       
-      Robot.drivetrain.getDrivePID().enable();
+      Robot.drivetrain.getDrivePID(1).enable();
       Robot.drivetrain.getTurnPID().enable();
     }
 
@@ -39,15 +39,15 @@ public class AutoStrafe extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Robot.drivetrain.getDrivePID().onTarget() && Robot.drivetrain.getTurnPID().onTarget());
+        return (Robot.drivetrain.getDrivePID(1).onTarget() && Robot.drivetrain.getTurnPID().onTarget());
     }
 
     // Called once after isFinished returns true
     protected void end() {
       Robot.drivetrain.mecanumDrive(0, 0, 0, 0);
-      Robot.drivetrain.getDrivePID().disable();
+      Robot.drivetrain.getDrivePID(1).disable();
       Robot.drivetrain.getTurnPID().disable();
-      Robot.drivetrain.stopVictor();
+      //Robot.drivetrain.stopVictor();
     }
 
     // Called when another command which requires one or more of the same

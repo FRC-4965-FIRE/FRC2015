@@ -24,12 +24,12 @@ public class EncoderDeadreckon extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.drivetrain.mecanumDrive(0, .75, 0, 0);
-    	SmartDashboard.putNumber("Encoder Value", Robot.drivetrain.getEncoder());
+    	SmartDashboard.putNumber("Encoder Value", Robot.drivetrain.getEncoder(1));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if(Robot.drivetrain.getEncoder() > setpoint)
+        if(Robot.drivetrain.getEncoder(1) > setpoint)
         {
         	return true;
         }

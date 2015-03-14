@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         autonomousCommand = new DriveForTime(1.75);
         teleopCommand = new JoystickDrive();
-        LiveWindow.addSensor("Drive Train", "Drive PID", drivetrain.getDrivePID());
+        LiveWindow.addSensor("Drive Train", "Drive PID", drivetrain.getDrivePID(1));
         LiveWindow.addSensor("Drive Train", "Turn PID", drivetrain.getTurnPID());
         //SmartDashboard.putData("AutoStrafe", new AutoStrafe(200.0, 0));
         

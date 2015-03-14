@@ -27,9 +27,9 @@ public class RobotMap {
     public static final int DIO_FOUR  = 4;
     public static final int DIO_FIVE  = 5;
     public static final int DIO_SIX   = 6;
-    public static final int DIO_SEVEN = 6;
-    public static final int DIO_EIGHT = 6;
-    public static final int DIO_NINE  = 6;
+    public static final int DIO_SEVEN = 7;
+    public static final int DIO_EIGHT = 8;
+    public static final int DIO_NINE  = 9;
     
     public static final int ANLG_ZERO  = 0;
     public static final int ANLG_ONE   = 1;

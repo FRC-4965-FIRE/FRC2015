@@ -21,7 +21,7 @@ public class JoystickDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         SmartDashboard.putBoolean("switch drive", Robot.drivetrain.switchDrive);
-    	if(Robot.drivetrain.switchDrive)
+    	/*if(Robot.drivetrain.switchDrive)
     	{
     	   Robot.drivetrain.arcadeDrive(Robot.oi.leftStickY(), Robot.oi.rightStickX(), Robot.oi.leftStickX(), Robot.oi.isOverdrive());
     	}
@@ -31,9 +31,9 @@ public class JoystickDrive extends Command {
                     Robot.oi.LeftTrigger(), Robot.oi.RightTrigger(),
                     Robot.oi.isOverdrive());
 
-    	}
+    	}*/
+        Robot.drivetrain.joystickDrive(Robot.oi.leftStickX(), Robot.oi.leftStickY(), Robot.oi.RightTrigger(), Robot.oi.LeftTrigger());
     } 
-
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return false;
