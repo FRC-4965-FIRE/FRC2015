@@ -53,16 +53,16 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
         autonomousCommand = new DriveForTime(1.75);
         teleopCommand = new JoystickDrive();
-        LiveWindow.addSensor("Drive Train", "Drive PID", drivetrain.getDrivePID(1));
-        LiveWindow.addSensor("Drive Train", "Turn PID", drivetrain.getTurnPID());
         //SmartDashboard.putData("AutoStrafe", new AutoStrafe(200.0, 0));
         
-        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+        //frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 
         // the camera name (ex "cam0") can be found through the roborio web interface
-        session = NIVision.IMAQdxOpenCamera("cam0",
-        NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-        NIVision.IMAQdxConfigureGrab(session);
+        //session = NIVision.IMAQdxOpenCamera("cam0",
+        //NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+        //NIVision.IMAQdxConfigureGrab(session);
+
+        CameraServer.getInstance().startAutomaticCapture("cam0");
     }
 	
 	public void disabledPeriodic() {
@@ -70,8 +70,8 @@ public class Robot extends IterativeRobot {
 	}
 
     public void autonomousInit() {
-        // schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        // schedule the autonomous command (example)a 
+       if (autonomousCommand != null) autonomousCommand.start();
     }
 
     /**
@@ -85,7 +85,7 @@ public class Robot extends IterativeRobot {
         if (autonomousCommand != null) autonomousCommand.cancel();
         
         Scheduler.getInstance().add(teleopCommand);
-        NIVision.IMAQdxStartAcquisition(session);
+        //NIVision.IMAQdxStartAcquisition(session);
     }
 
     /**
@@ -101,8 +101,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         
-        NIVision.IMAQdxGrab(session, frame, 1);
-        CameraServer.getInstance().setImage(frame);
+        //NIVision.IMAQdxGrab(session, frame, 1);
+        //CameraServer.getInstance().setImage(frame);
         SmartDashboard.putNumber("Gyro Angle Out", drivetrain.getAngle());
         
         

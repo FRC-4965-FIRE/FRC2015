@@ -23,7 +23,7 @@ public class AutoStrafe extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-      Robot.drivetrain.resetEncoder();
+      Robot.drivetrain.resetEncoders();
       Robot.drivetrain.getDrivePID(1).setSetpoint(distance);
       Robot.drivetrain.getTurnPID().setSetpoint(angle);
       

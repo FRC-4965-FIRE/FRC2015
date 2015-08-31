@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OI {
 	 public Joystick controller = new Joystick(0);
      public Joystick controllerTwo = new Joystick(1);
+     
    
    Button btnOne = new JoystickButton(controller, 1);
    Button btnTwo = new JoystickButton(controller, 2);
@@ -32,14 +33,14 @@ public class OI {
   
    public OI()
    {
-	   btnOne.whenPressed(new SwitchDrive());
-	   btnTwo.whenPressed(new DriveForDistance(800));
-	   joy2BtnOne.whileHeld(new ArmLower());
-	   joy2BtnTwo.whileHeld(new OpenIntake());
-	   joy2BtnFour.whileHeld(new ArmLift());
-	   joy2BtnThree.whileHeld(new CloseIntake());
-	   joy2BtnFive.whileHeld(new SpinIntake());
-	   joy2BtnSix.whileHeld(new ReverseIntake());
+	   btnTwo.whenPressed(new StrafeForDistance(400, false));
+	   btnThree.whenPressed(new AutoOneBinOneTote());
+	   btnFour.whenPressed(new killPID());
+	   btnFive.whenPressed(new ResetEncoder());
+	   joy2BtnOne.whileHeld(new ArmLower(false, 0.0));
+	   joy2BtnTwo.whileHeld(new OpenIntake(false, 0.0));
+	   joy2BtnFour.whileHeld(new ArmLift(false, 0.0));
+	   joy2BtnThree.whileHeld(new CloseIntake(false, 0.0));
    }
     
     public double leftStickY()
@@ -80,27 +81,28 @@ public class OI {
     
     public double RightTrigger()
     {
-        if (controller.getRawAxis(3) < 0.3 && controller.getRawAxis(3) > -0.3)
+        /*if (controller.getRawAxis(3) < 0.15 && controller.getRawAxis(3) > -0.15)
         {
             return 0.0;
-        }
+        }*/
         
         return controller.getRawAxis(3);
     }
   
     public double LeftTrigger()
     {
-        if (controller.getRawAxis(2) < 0.3 && controller.getRawAxis(2) > -0.3)
+        /*if (controller.getRawAxis(2) < 0.3 && controller.getRawAxis(2) > -0.3)
         {
             return 0.0;
-        }
+        }*/
         
-        return controller.getRawAxis(2);
+        return ((-controller.getRawAxis(2)) + 1) / 2;
     }
     
     public boolean isOverdrive()
     {
     	return (controller.getRawButton(5) && controller.getRawButton(6));
     }
+    
 }
 

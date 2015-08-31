@@ -3,7 +3,7 @@ package org.usfirst.frc.team4965.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team4965.robot.*;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
@@ -14,9 +14,7 @@ public class Intake extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public static Intake instance;
-    Talon leftWheel;
-    Talon rightWheel;
-    Talon openArm;
+    Victor intake;
     DigitalInput limitOpen;
     DigitalInput limitClose;
    
@@ -31,39 +29,26 @@ public class Intake extends Subsystem {
   
      private Intake()
      {
-        leftWheel = new Talon(RobotMap.LeftTalon);
-        rightWheel = new Talon(RobotMap.RightTalon);
-        openArm = new Talon(RobotMap.CenterTalon);
+        intake = new Victor(RobotMap.IntakeVictor);
         //limitOpen = new DigitalInput(RobotMap.LimitThree);
         //limitClose = new DigitalInput(RobotMap.LimitFour);
      }
   
    public void Open(double speed)
    {
-       openArm.set(-speed);
+       intake.set(speed);
    } 
    
    public void Close(double speed)
    {
-	   openArm.set(speed);
+	   intake.set(-speed);
    }
     
   public void stop()
   {
-       openArm.set(0.0);
+       intake.set(0.0);
   }
   
-  public void spintake(double speed)
-  {
-    leftWheel.set(speed);
-    rightWheel.set(speed);
-  }
-  
-  public void stopSpin()
-  {
-    leftWheel.set(0.0);
-    rightWheel.set(0.0);
-  }
   public boolean isOpen()
   {
     return limitOpen.get();

@@ -28,7 +28,8 @@ public class EyeOfSauron extends Subsystem {
 	     int session;
 	     
 		//A structure to hold measurements of a particle
-		public class ParticleReport implements Comparator<ParticleReport>, Comparable<ParticleReport>{
+		public class ParticleReport implements Comparator<ParticleReport>, Comparable<ParticleReport>
+		{
 			double PercentAreaToImageArea;
 			double Area;
 			double ConvexHullArea;
@@ -69,7 +70,7 @@ public class EyeOfSauron extends Subsystem {
 		double LONG_RATIO = 2.22; //Tote long side = 26.9 / Tote height = 12.1 = 2.22
 		double SHORT_RATIO = 1.4; //Tote short side = 16.9 / Tote height = 12.1 = 1.4
 		double SCORE_MIN = 75.0;  //Minimum score to be considered a tote
-		double VIEW_ANGLE = 49.4; //View angle fo camera, set to Axis m1011 by default, 64 for m1013, 51.7 for 206, 52 for HD3000 square, 60 for HD3000 640x480
+		double VIEW_ANGLE = 49.4; //View angle fo camera, set to Axis m1011 by default (49.4), 64 for m1013, 51.7 for 206, 52 for HD3000 square, 60 for HD3000 640x480
 		NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
 		NIVision.ParticleFilterOptions2 filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
 		Scores scores = new Scores();
@@ -146,7 +147,8 @@ public class EyeOfSauron extends Subsystem {
 
 			return  targetWidth/(normalizedWidth*12*Math.tan(VIEW_ANGLE*Math.PI/(180*2)));
 		}
-  public void autonomous() {
+		
+		public void autonomous() {
 			//while (isAutonomous() && isEnabled())
 			{
 				//read file in from disk. For this example to run you need to copy image20.jpg from the SampleImages folder to the
@@ -225,7 +227,8 @@ public class EyeOfSauron extends Subsystem {
 				Timer.delay(0.005);				// wait for a motor update time
 			}
 		}
-  	public void operatorControl() {
+  
+		public void operatorControl() {
 			NIVision.IMAQdxStartAcquisition(session);
 
 	        /**

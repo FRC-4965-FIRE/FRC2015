@@ -20,7 +20,10 @@ public class JoystickDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        SmartDashboard.putBoolean("switch drive", Robot.drivetrain.switchDrive);
+        SmartDashboard.putNumber("Drive Encoder FR", Robot.drivetrain.getEncoder(1));
+    	SmartDashboard.putNumber("Drive Encoder FL", Robot.drivetrain.getEncoder(2));
+    	SmartDashboard.putNumber("Drive Encoder RR", Robot.drivetrain.getEncoder(3));
+    	SmartDashboard.putNumber("Drive Encoder RL", Robot.drivetrain.getEncoder(4));
     	/*if(Robot.drivetrain.switchDrive)
     	{
     	   Robot.drivetrain.arcadeDrive(Robot.oi.leftStickY(), Robot.oi.rightStickX(), Robot.oi.leftStickX(), Robot.oi.isOverdrive());

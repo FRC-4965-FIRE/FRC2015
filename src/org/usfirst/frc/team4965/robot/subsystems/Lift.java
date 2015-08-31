@@ -38,12 +38,12 @@ public class Lift extends Subsystem {
   
    public void Up(double speed)
    {
-       armLift.set(speed);
+       armLift.set(-speed);
    } 
   
    public void Down(double speed) 
    {
-      armLift.set(-speed);
+      armLift.set(speed);
    }
   
    public void stopLift()

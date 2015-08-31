@@ -59,10 +59,7 @@ public class RobotMap {
     public static final int LeftBack = PWM_TWO;//J2
     public static final int RightBack = PWM_THREE;
     public static final int ArmVictor = PWM_FOUR;
-    public static final int LeftTalon = PWM_FIVE;
-    public static final int CenterTalon = PWM_SIX;
-    public static final int RightTalon = PWM_SEVEN;
-    public static final int TestVictor = PWM_EIGHT;
+    public static final int IntakeVictor = PWM_FIVE;
 
  //Gyro
     public static final int Gyro = ANLG_ZERO;
