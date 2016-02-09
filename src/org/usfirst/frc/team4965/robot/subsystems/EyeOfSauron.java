@@ -37,6 +37,7 @@ public class EyeOfSauron extends Subsystem {
 			double BoundingRectTop;
 			double BoundingRectRight;
 			double BoundingRectBottom;
+			double Orientation;
 			
 			public int compareTo(ParticleReport r)
 			{
@@ -49,32 +50,23 @@ public class EyeOfSauron extends Subsystem {
 			}
 		};
 
-		//Structure to represent the scores for the various tests used for target identification
-		public class Scores {
-			double Trapezoid;
-			double LongAspect;
-			double ShortAspect;
-			double AreaToConvexHullArea;
-		};
-
 		//Images
 		Image frame;
 		Image binaryFrame;
 		int imaqError;
 
 		//Constants
-		NIVision.Range TOTE_HUE_RANGE = new NIVision.Range(24, 49);	//Default hue range for yellow tote
-		NIVision.Range TOTE_SAT_RANGE = new NIVision.Range(67, 255);	//Default saturation range for yellow tote
-		NIVision.Range TOTE_VAL_RANGE = new NIVision.Range(49, 255);	//Default value range for yellow tote
-		double AREA_MINIMUM = 0.5; //Default Area minimum for particle as a percentage of total image area
+		NIVision.Range TOTE_HUE_RANGE = new NIVision.Range(0, 20);	
+		NIVision.Range TOTE_SAT_RANGE = new NIVision.Range(55, 130);
+		NIVision.Range TOTE_VAL_RANGE = new NIVision.Range(125, 255);
+		double AREA_MINIMUM = 5.5; //Default Area minimum for particle as a percentage of total image area
 		double LONG_RATIO = 2.22; //Tote long side = 26.9 / Tote height = 12.1 = 2.22
 		double SHORT_RATIO = 1.4; //Tote short side = 16.9 / Tote height = 12.1 = 1.4
 		double SCORE_MIN = 75.0;  //Minimum score to be considered a tote
 		double VIEW_ANGLE = 49.4; //View angle fo camera, set to Axis m1011 by default (49.4), 64 for m1013, 51.7 for 206, 52 for HD3000 square, 60 for HD3000 640x480
 		NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
 		NIVision.ParticleFilterOptions2 filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
-		Scores scores = new Scores();
-
+		
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -85,47 +77,6 @@ public class EyeOfSauron extends Subsystem {
 		{
 			//we want descending sort order
 			return particle1.PercentAreaToImageArea > particle2.PercentAreaToImageArea;
-		}
-
-		/**
-		 * Converts a ratio with ideal value of 1 to a score. The resulting function is piecewise
-		 * linear going from (0,0) to (1,100) to (2,0) and is 0 for all inputs outside the range 0-2
-		 */
-		double ratioToScore(double ratio)
-		{
-			return (Math.max(0, Math.min(100*(1-Math.abs(1-ratio)), 100)));
-		}
-
-		/**
-		 * Method to score convex hull area. This scores how "complete" the particle is. Particles with large holes will score worse than a filled in shape
-		 */
-		double ConvexHullAreaScore(ParticleReport report)
-		{
-			return ratioToScore((report.Area/report.ConvexHullArea)*1.18);
-		}
-
-		/**
-		 * Method to score if the particle appears to be a trapezoid. Compares the convex hull (filled in) area to the area of the bounding box.
-		 * The expectation is that the convex hull area is about 95.4% of the bounding box area for an ideal tote.
-		 */
-		double TrapezoidScore(ParticleReport report)
-		{
-			return ratioToScore(report.ConvexHullArea/((report.BoundingRectRight-report.BoundingRectLeft)*(report.BoundingRectBottom-report.BoundingRectTop)*.954));
-		}
-
-		/**
-		 * Method to score if the aspect ratio of the particle appears to match the long side of a tote.
-		 */
-		double LongSideScore(ParticleReport report)
-		{
-			return ratioToScore(((report.BoundingRectRight-report.BoundingRectLeft)/(report.BoundingRectBottom-report.BoundingRectTop))/LONG_RATIO);
-		}
-
-		/**
-		 * Method to score if the aspect ratio of the particle appears to match the short side of a tote.
-		 */
-		double ShortSideScore(ParticleReport report){
-			return ratioToScore(((report.BoundingRectRight-report.BoundingRectLeft)/(report.BoundingRectBottom-report.BoundingRectTop))/SHORT_RATIO);
 		}
 
 		/**
@@ -195,34 +146,19 @@ public class EyeOfSauron extends Subsystem {
 						par.PercentAreaToImageArea = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
 						par.Area = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA);
 						par.ConvexHullArea = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_CONVEX_HULL_AREA);
-						par.BoundingRectTop = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_TOP);
-						par.BoundingRectLeft = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_LEFT);
-						par.BoundingRectBottom = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_BOTTOM);
-						par.BoundingRectRight = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_RIGHT);
+						par.Orientation = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_ORIENTATION);
 						particles.add(par);
 					}
 					particles.sort(null);
-
-					//This example only scores the largest particle. Extending to score all particles and choosing the desired one is left as an exercise
-					//for the reader. Note that the long and short side scores expect a single tote and will not work for a stack of 2 or more totes.
-					//Modification of the code to accommodate 2 or more stacked totes is left as an exercise for the reader.
-					scores.Trapezoid = TrapezoidScore(particles.elementAt(0));
-					SmartDashboard.putNumber("Trapezoid", scores.Trapezoid);
-					scores.LongAspect = LongSideScore(particles.elementAt(0));
-					SmartDashboard.putNumber("Long Aspect", scores.LongAspect);
-					scores.ShortAspect = ShortSideScore(particles.elementAt(0));
-					SmartDashboard.putNumber("Short Aspect", scores.ShortAspect);
-					scores.AreaToConvexHullArea = ConvexHullAreaScore(particles.elementAt(0));
-					SmartDashboard.putNumber("Convex Hull Area", scores.AreaToConvexHullArea);
-					boolean isTote = scores.Trapezoid > SCORE_MIN && (scores.LongAspect > SCORE_MIN || scores.ShortAspect > SCORE_MIN) && scores.AreaToConvexHullArea > SCORE_MIN;
-					boolean isLong = scores.LongAspect > scores.ShortAspect;
-
-					//Send distance and tote status to dashboard. The bounding rect, particularly the horizontal center (left - right) may be useful for rotating/driving towards a tote
-					SmartDashboard.putBoolean("IsTote", isTote);
-					SmartDashboard.putNumber("Distance", computeDistance(binaryFrame, particles.elementAt(0), isLong));
-				} else {
-					SmartDashboard.putBoolean("IsTote", false);
+					
+					//first particle should be largest, and the floor pattern
+					SmartDashboard.putNumber("Orientation", particles.get(0).Orientation);
+				} 
+				else 
+				{
+					
 				}
+				
 
 				Timer.delay(0.005);				// wait for a motor update time
 			}

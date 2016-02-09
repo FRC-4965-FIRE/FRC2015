@@ -30,17 +30,21 @@ public class OI {
    Button joy2BtnFive = new JoystickButton(controllerTwo, 5);
    Button joy2BtnSix = new JoystickButton(controllerTwo, 6);
    
-  
    public OI()
    {
-	   btnTwo.whenPressed(new StrafeForDistance(400, false));
-	   btnThree.whenPressed(new AutoOneBinOneTote());
-	   btnFour.whenPressed(new killPID());
-	   btnFive.whenPressed(new ResetEncoder());
+	   //btnTwo.whenPressed(new StrafeForDistance(400, false));
+	   //btnThree.whenPressed(new AutoOneBinOneTote());
+	   //btnFour.whenPressed(new killPID());
+	   //btnFive.whenPressed(new ResetEncoder());
+	   btnTwo.whileHeld(new ArmLower(false, 0));
+	   btnFour.whileHeld(new ArmLift(false, 0));
+	   btnFive.whileHeld(new OpenIntake(false, 0));
+	   btnThree.whileHeld(new CloseIntake(false, 0));
 	   joy2BtnOne.whileHeld(new ArmLower(false, 0.0));
 	   joy2BtnTwo.whileHeld(new OpenIntake(false, 0.0));
 	   joy2BtnFour.whileHeld(new ArmLift(false, 0.0));
 	   joy2BtnThree.whileHeld(new CloseIntake(false, 0.0));
+	   
    }
     
     public double leftStickY()

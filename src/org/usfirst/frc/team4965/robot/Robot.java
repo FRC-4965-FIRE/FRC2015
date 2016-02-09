@@ -30,12 +30,13 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
     public static Lift lift;
     public static Intake intake;
-    public static CameraServer server;
+    //public static CameraServer server;
+    public static EyeOfSauron camera;
 
     Command autonomousCommand;
     Command teleopCommand;
     
-    int session;
+    //int session;
     Image frame;
     
 
@@ -62,7 +63,7 @@ public class Robot extends IterativeRobot {
         //NIVision.IMAQdxCameraControlMode.CameraControlModeController);
         //NIVision.IMAQdxConfigureGrab(session);
 
-        CameraServer.getInstance().startAutomaticCapture("cam0");
+        //CameraServer.getInstance().startAutomaticCapture("cam0");
     }
 	
 	public void disabledPeriodic() {
@@ -71,7 +72,7 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // schedule the autonomous command (example)a 
-       if (autonomousCommand != null) autonomousCommand.start();
+       //if (autonomousCommand != null) autonomousCommand.start();
     }
 
     /**

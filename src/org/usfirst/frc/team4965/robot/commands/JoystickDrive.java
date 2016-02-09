@@ -35,7 +35,7 @@ public class JoystickDrive extends Command {
                     Robot.oi.isOverdrive());
 
     	}*/
-        Robot.drivetrain.joystickDrive(Robot.oi.leftStickX(), Robot.oi.leftStickY(), Robot.oi.RightTrigger(), Robot.oi.LeftTrigger());
+        Robot.drivetrain.joystickDrive(Robot.oi.leftStickX(), Robot.oi.leftStickY(), Robot.oi.rightStickX(), 1.0);
     } 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
